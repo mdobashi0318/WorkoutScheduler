@@ -1,0 +1,94 @@
+name: WorkoutScheduler
+targets:
+  WorkoutScheduler:
+    type: application
+    platform: iOS
+    deploymentTarget: &deployment_target "18.0"
+    info:
+      path: WorkoutScheduler/Info.plist
+      properties:
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UILaunchStoryboardName: LaunchScreen
+    entitlements:
+      path: WorkoutScheduler/WorkoutScheduler.entitlements
+      properties:
+        com.apple.security.application-groups: [group.masaharu.dobashi.WorkoutScheduler]
+    sources:
+         - WorkoutScheduler
+    settings:
+        base:
+         ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: YES
+         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+         CODE_SIGN_STYLE: Automatic
+         DEVELOPMENT_ASSET_PATHS: "\"WorkoutScheduler/Preview Content\""
+         DEVELOPMENT_TEAM: 7RPFL7EXKD
+         ENABLE_PREVIEWS: YES
+         INFOPLIST_FILE: WorkoutScheduler/Info.plist
+         MARKETING_VERSION: &marketing_version 1.0.0
+         CURRENT_PROJECT_VERSIO: 1
+         PRODUCT_BUNDLE_IDENTIFIER: "masaharu.dobashi.WorkoutScheduler"
+         PRODUCT_NAME: "$(TARGET_NAME)"
+    options:
+        developmentLanguage: ja
+    dependencies:
+        - package: Realm
+          product: RealmSwift
+        - package: Rswift
+          product: RswiftLibrary
+    buildToolPlugins:
+        - plugin: RswiftGenerateInternalResources
+          package: Rswift
+        
+  WorkoutSchedulerTests:
+      type: bundle.unit-test
+      platform: iOS
+      sources:
+       - WorkoutSchedulerTests
+      settings:
+        base:
+         ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: YES
+         BUNDLE_LOADER: "$(TEST_HOST)"
+         CODE_SIGN_STYLE: Automatic
+         DEVELOPMENT_TEAM: 7RPFL7EXKD
+         INFOPLIST_FILE: WorkoutSchedulerTests/Info.plist
+         PRODUCT_BUNDLE_IDENTIFIER: "masaharu.dobashi.WorkoutSchedulerTests"
+         PRODUCT_NAME: "$(TARGET_NAME)"
+         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/WorkoutScheduler.app/WorkoutScheduler"
+      dependencies:
+      - target: WorkoutScheduler
+
+packages:
+ XcodeGen:
+    url: https://github.com/yonaskolb/XcodeGen
+    version: 2.42.0
+ Realm:
+    url: https://github.com/realm/realm-swift
+    version: 10.54.0
+ Rswift:
+    url: https://github.com/mac-cain13/R.swift
+    version: 7.4.0
+
+
+schemes:
+  WorkoutScheduler:
+    build:
+      targets:
+        WorkoutScheduler: all
+        WorkoutSchedulerTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      coverageTargets:
+        - WorkoutScheduler
+      targets:
+        - name: WorkoutSchedulerTests
+          parallelizable: true
+          randomExecutionOrder: true
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
