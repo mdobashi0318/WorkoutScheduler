@@ -7,5 +7,8 @@
 */
 
 
+// MARK: - Error
 
-"AddfFailed" = "Registration failed.";
+"AddFailed" = "登録に失敗しました。";
+"UpdateFailed" = "更新に失敗しました。";
+"DeleteFailed" = "削除に失敗しました。";
