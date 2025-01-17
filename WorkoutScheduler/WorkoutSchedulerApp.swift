@@ -9,6 +9,9 @@ import SwiftUI
 
 @main
 struct WorkoutSchedulerApp: App {
+    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegates
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
