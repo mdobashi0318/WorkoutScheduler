@@ -6,16 +6,28 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            VStack {
+                Image(systemName: "globe")
+                    .imageScale(.large)
+                    .foregroundStyle(.tint)
+                Text("Hello, world!")
+            }
+            .padding()
+            .navigationTitle("")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    IconButton(action: {
+                        
+                    }, iconName: .plus)
+                }
+            }
         }
-        .padding()
+        
     }
 }
 
