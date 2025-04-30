@@ -11,6 +11,7 @@ enum LocalizeString: String {
     
     case Message
     case Label
+    case Button
     
     func localized(_ key: String.LocalizationValue) -> String {
         String(localized: key, table: self.rawValue)

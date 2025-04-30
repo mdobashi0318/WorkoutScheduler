@@ -6,18 +6,25 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct WorkoutScreen: View {
     
     @State private var showAddWorkout = false
     
+    @Query private var workouts: [Workout]
+    
     var body: some View {
         NavigationStack {
-            Text("WorkoutScreen")
-                .toolbar {
-                    topBarTrailing
+            List {
+                ForEach(workouts) { workout in
+                    Text(workout.name)
                 }
-                
+            }
+            .navigationTitle("WorkoutScreen")
+            .toolbar {
+                topBarTrailing
+            }
         }
         
         .fullScreenCover(isPresented: $showAddWorkout) {

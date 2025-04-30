@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "SetCount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "セット数"
+          }
+        }
+      }
+    },
     "SetSec" : {
       "extractionState" : "manual",
       "localizations" : {
