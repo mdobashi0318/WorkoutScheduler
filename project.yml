@@ -30,12 +30,6 @@ targets:
          PRODUCT_NAME: "$(TARGET_NAME)"
     options:
         developmentLanguage: ja
-    dependencies:
-        - package: Rswift
-          product: RswiftLibrary
-    buildToolPlugins:
-        - plugin: RswiftGenerateInternalResources
-          package: Rswift
         
   WorkoutSchedulerTests:
       type: bundle.unit-test
@@ -59,9 +53,6 @@ packages:
  XcodeGen:
     url: https://github.com/yonaskolb/XcodeGen
     version: 2.42.0
- Rswift:
-    url: https://github.com/mac-cain13/R.swift
-    version: 7.4.0
 
 
 schemes:

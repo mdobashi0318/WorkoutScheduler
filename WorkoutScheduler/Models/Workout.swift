@@ -14,9 +14,9 @@ class Workout {
     
     var name: String = ""
     /// １セットの秒数
-    var activitieTime: Int = 0
+    var activitieTime: String = ""
     /// セット数
-    var setCount = 0
+    var setCount: String = ""
     
     var created_at: String = ""
     

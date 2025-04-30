@@ -17,9 +17,11 @@ struct WorkoutScreen: View {
                 .toolbar {
                     topBarTrailing
                 }
+                
         }
+        
         .fullScreenCover(isPresented: $showAddWorkout) {
-            AddWorkoutScreen()
+            AddWorkoutScreen(workout: Workout())
         }
     }
     

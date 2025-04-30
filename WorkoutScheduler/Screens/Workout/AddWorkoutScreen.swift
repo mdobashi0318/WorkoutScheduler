@@ -11,13 +11,27 @@ struct AddWorkoutScreen: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    @State var workout: Workout
+    
     var body: some View {
         NavigationStack {
-            Text("Add Workout Screen")
-                .navigationTitle("AddWorkoutScreen")
-                .toolbar {
-                    topBarLeading
+            Form {
+                HStack {
+                    Text("\(LocalizeString.Label.localized("Title")):")
+                    Spacer()
+                    TextField(LocalizeString.Message.localized("InputTitle"), text: $workout.name)
                 }
+                
+                HStack {
+                    Text("\(LocalizeString.Label.localized("SetSec")):")
+                    Spacer()
+                    TextField(LocalizeString.Message.localized("InputOneSetSec"), text: $workout.activitieTime)
+                }
+            }
+            .navigationTitle("AddWorkoutScreen")
+            .toolbar {
+                topBarLeading
+            }
         }
     }
     
