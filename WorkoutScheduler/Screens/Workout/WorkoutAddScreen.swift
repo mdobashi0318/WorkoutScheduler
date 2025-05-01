@@ -1,5 +1,5 @@
 //
-//  AddWorkoutScreen.swift
+//  WorkoutAddScreen.swift
 //  WorkoutScheduler
 //
 //  Created by 土橋正晴 on 2025/04/29.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct AddWorkoutScreen: View {
+struct WorkoutAddScreen: View {
     
     @Environment(\.modelContext) private var modelContext
     
@@ -107,5 +107,5 @@ struct AddWorkoutScreen: View {
 
 
 #Preview {
-    AddWorkoutScreen(workout: Workout())
+    WorkoutAddScreen(workout: Workout())
 }

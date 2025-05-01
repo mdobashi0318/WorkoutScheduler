@@ -28,7 +28,7 @@ struct WorkoutScreen: View {
         }
         
         .fullScreenCover(isPresented: $showAddWorkout) {
-            AddWorkoutScreen(workout: Workout())
+            WorkoutAddScreen(workout: Workout())
         }
     }
     
