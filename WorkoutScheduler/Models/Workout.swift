@@ -19,6 +19,8 @@ class Workout {
     /// セット数
     var setCount: String = ""
     
+    var interval: String = ""
+    
     var created_at: String = ""
     
     var updated_at: String = ""

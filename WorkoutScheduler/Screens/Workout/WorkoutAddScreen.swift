@@ -24,20 +24,23 @@ struct WorkoutAddScreen: View {
         NavigationStack {
             Form {
                 HStack {
-                    Text("\(LocalizeString.Label.localized("Title")):")
-                    TextField(LocalizeString.Message.localized("InputTitle"), text: $workout.name)
+                    Text("\(LocalizeString.Label.localized("Title")): ")
+                    underbarTextField(text: $workout.name)
                 }
                 
                 HStack {
-                    Text("\(LocalizeString.Label.localized("SetSec")):")
-                    TextField(LocalizeString.Message.localized("InputOneSetSec"), text: $workout.activitieTime)
-                        .keyboardType(.numberPad)
+                    Text("\(LocalizeString.Label.localized("SetSec")): ")
+                    underbarTextField(text: $workout.activitieTime, keybordtype: .numberPad)
                 }
                 
                 HStack {
-                    Text("\(LocalizeString.Label.localized("SetCount")):")
-                    TextField(LocalizeString.Message.localized("InputSetCount"), text: $workout.setCount)
-                        .keyboardType(.numberPad)
+                    Text("\(LocalizeString.Label.localized("SetCount")): ")
+                    underbarTextField(text: $workout.setCount, keybordtype: .numberPad)
+                }
+                
+                HStack {
+                    Text("\(LocalizeString.Label.localized("Interval")): ")
+                    underbarTextField(text: $workout.interval, keybordtype: .numberPad)
                 }
             }
             .navigationTitle("AddWorkoutScreen")
@@ -55,6 +58,14 @@ struct WorkoutAddScreen: View {
         }
     }
     
+    
+    private func underbarTextField(text: Binding<String>, keybordtype: UIKeyboardType = .default) -> some View {
+        VStack {
+            TextField("", text: text)
+                .keyboardType(keybordtype)
+            Divider()
+        }
+    }
     
     private var topBarLeading: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {

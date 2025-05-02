@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Interval" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インターバルの秒数"
+          }
+        }
+      }
+    },
     "SetCount" : {
       "extractionState" : "manual",
       "localizations" : {

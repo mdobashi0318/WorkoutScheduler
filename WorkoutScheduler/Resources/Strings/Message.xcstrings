@@ -18,6 +18,23 @@
         }
       }
     },
+    "InputInterval" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter an interval"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "インターバルを入力してください"
+          }
+        }
+      }
+    },
     "InputOneSetSec" : {
       "extractionState" : "manual",
       "localizations" : {
