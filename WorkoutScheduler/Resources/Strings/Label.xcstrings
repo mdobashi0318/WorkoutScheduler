@@ -1,13 +1,36 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Interval" : {
+    "EditTime" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit time to workout"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "インターバルの秒数"
+            "value" : "ワークアウトに時間を編集する"
+          }
+        }
+      }
+    },
+    "Interval" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interval time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インターバルの時間"
           }
         }
       }
@@ -49,6 +72,12 @@
     "SetCount" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number of workout sessions"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -60,6 +89,12 @@
     "SetWorkoutTime" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time per set"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",

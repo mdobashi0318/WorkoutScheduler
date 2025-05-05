@@ -12,6 +12,7 @@ struct WorkoutDetailScreen: View {
     var workout: Workout
     
     var body: some View {
-        TimerView()
+        Text(workout.name)
+        TimerView(workout: workout)
     }
 }
