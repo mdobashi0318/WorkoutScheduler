@@ -14,12 +14,15 @@ class Workout {
     var id: String = ""
     
     var name: String = ""
-    /// １セットの秒数
-    var activitieTime: String = ""
+    ///  min
+    var workoutMin: Int = 0
+    ///  sec
+    var workoutSec: Int = 0
     /// セット数
-    var setCount: String = ""
+    var setCount: Int = 0
     
-    var interval: String = ""
+    var intervalMin: Int = 0
+    var intervalSec: Int = 0
     
     var created_at: String = ""
     

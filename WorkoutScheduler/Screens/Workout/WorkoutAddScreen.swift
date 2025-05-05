@@ -20,6 +20,14 @@ struct WorkoutAddScreen: View {
     
     @State private var alertMessage = ""
     
+    private let sec: [Int] = {
+        var secs: [Int] = []
+        for i in 0..<60 where i % 5 == 0 {
+            secs.append(i)
+        }
+        return secs
+    }()
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -27,21 +35,8 @@ struct WorkoutAddScreen: View {
                     Text("\(LocalizeString.Label.localized("Title")): ")
                     underbarTextField(text: $workout.name)
                 }
-                
-                HStack {
-                    Text("\(LocalizeString.Label.localized("SetSec")): ")
-                    underbarTextField(text: $workout.activitieTime, keybordtype: .numberPad)
-                }
-                
-                HStack {
-                    Text("\(LocalizeString.Label.localized("SetCount")): ")
-                    underbarTextField(text: $workout.setCount, keybordtype: .numberPad)
-                }
-                
-                HStack {
-                    Text("\(LocalizeString.Label.localized("Interval")): ")
-                    underbarTextField(text: $workout.interval, keybordtype: .numberPad)
-                }
+                minSecPickerSection
+                intervalPickerSection
             }
             .navigationTitle("AddWorkoutScreen")
             .toolbar {
@@ -65,6 +60,76 @@ struct WorkoutAddScreen: View {
                 .keyboardType(keybordtype)
             Divider()
         }
+    }
+    
+    private var minSecPickerSection: some View {
+        Section(content: {
+            HStack {
+                HStack {
+                    Picker(selection: $workout.workoutMin) {
+                        ForEach(0..<60) {
+                            Text("\($0)")
+                                .tag($0)
+                        }
+                    } label: { }
+                        .pickerStyle(.wheel)
+                    Text(LocalizeString.Label.localized("Min"))
+                }
+                
+                HStack {
+                    Picker(selection: $workout.workoutSec) {
+                        ForEach(sec, id: \.self) {
+                            Text("\($0)")
+                                .tag($0)
+                        }
+                    } label: { }
+                        .pickerStyle(.wheel)
+                    Text(LocalizeString.Label.localized("Sec"))
+                }
+            }
+            .frame(height: 90)
+            Picker(LocalizeString.Label.localized("SetCount"), selection: $workout.setCount) {
+                ForEach(1..<61) {
+                    Text("\($0)")
+                        .tag($0)
+                }
+            }
+            
+        }, header: {
+            Text(LocalizeString.Label.localized("SetWorkoutTime"))
+        })
+    }
+    
+    private var intervalPickerSection: some View {
+        Section(content: {
+            HStack {
+                HStack {
+                    Picker(selection: $workout.intervalMin) {
+                        ForEach(0..<60) {
+                            Text("\($0)")
+                                .tag($0)
+                        }
+                    } label: { }
+                        .pickerStyle(.wheel)
+                    Text(LocalizeString.Label.localized("Min"))
+                }
+                
+                HStack {
+                    Picker(selection: $workout.intervalSec) {
+                        ForEach(sec, id:\.self) {
+                            Text("\($0)")
+                                .tag($0)
+                        }
+                    } label: { }
+                        .pickerStyle(.wheel)
+                    Text(LocalizeString.Label.localized("Sec"))
+                }
+            }
+            .frame(height: 90)
+        }, header: {
+            Text(LocalizeString.Label.localized("Interval"))
+        })
+        
     }
     
     private var topBarLeading: some ToolbarContent {
@@ -104,10 +169,6 @@ struct WorkoutAddScreen: View {
     
     private func validation() -> Bool {
         return if workout.name.isEmpty {
-            false
-        } else if workout.activitieTime.isEmpty {
-            false
-        } else if workout.setCount.isEmpty {
             false
         } else {
             true

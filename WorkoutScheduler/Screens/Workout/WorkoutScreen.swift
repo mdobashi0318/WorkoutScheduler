@@ -18,10 +18,15 @@ struct WorkoutScreen: View {
         NavigationStack {
             List {
                 ForEach(workouts) { workout in
-                    Text(workout.name)
+                    NavigationLink(value: workout) {
+                        Text(workout.name)
+                    }
                 }
             }
             .navigationTitle("WorkoutScreen")
+            .navigationDestination(for: Workout.self) {
+                WorkoutDetailScreen(workout: $0)
+            }
             .toolbar {
                 topBarTrailing
             }
