@@ -18,6 +18,23 @@
         }
       }
     },
+    "EditSetCount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit the number of sets"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "セット数を編集する"
+          }
+        }
+      }
+    },
     "EditTime" : {
       "extractionState" : "manual",
       "localizations" : {

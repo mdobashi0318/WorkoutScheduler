@@ -20,6 +20,7 @@ struct TimerView: View {
     
     @State var isWorkoutSetTime: Bool = false
     @State var isIntervalSetTime: Bool = false
+    @State var isCountSet: Bool = false
     
     @State private var workoutStatus: WorkoutStatus = .workout
     
@@ -61,6 +62,7 @@ struct TimerView: View {
             buttonSection
             Form() {
                 TimeSetSection
+                countSetView
             }
         }
     }
@@ -138,6 +140,23 @@ struct TimerView: View {
                 }
             }
             .frame(height: 90)
+        }
+    }
+    
+    
+    @ViewBuilder
+    private var countSetView: some View {
+        Toggle(isOn: $isCountSet, label: {
+            Text(LocalizeString.Label.localized("EditSetCount"))
+        })
+        
+        if isCountSet {
+            Picker(LocalizeString.Label.localized("SetCount"), selection: $workout.setCount) {
+                ForEach(1..<61) {
+                    Text("\($0)")
+                        .tag($0)
+                }
+            }
         }
     }
     
