@@ -15,7 +15,7 @@ import Observation
 class TimerObject {
 
     enum Status: String {
-        case Start
+        case Start = "StartWorkout"
         case Pause
         case Resume
     }

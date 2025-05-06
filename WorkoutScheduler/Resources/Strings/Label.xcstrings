@@ -1,19 +1,36 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "EditInterval" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit interval time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インターバルの時間を編集する"
+          }
+        }
+      }
+    },
     "EditTime" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Edit time to workout"
+            "value" : "Edit workout time"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ワークアウトに時間を編集する"
+            "value" : "ワークアウトの時間を編集する"
           }
         }
       }

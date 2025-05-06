@@ -9,11 +9,21 @@ import SwiftUI
 
 struct TimerView: View {
     
+    enum WorkoutStatus {
+        case workout
+        case interval
+    }
+    
     @State private var timer = TimerObject()
     
     @State var workout: Workout
     
-    @State var isSetTime: Bool = false
+    @State var isWorkoutSetTime: Bool = false
+    @State var isIntervalSetTime: Bool = false
+    
+    @State private var workoutStatus: WorkoutStatus = .workout
+    
+    @State private var workoutCount: Int = 0
     
     private let sec: [Int] = {
         var secs: [Int] = []
@@ -40,14 +50,17 @@ struct TimerView: View {
                     .rotationEffect(Angle(degrees: -90))
                     .animation(.linear(duration: 1.0), value: timer.progresValue)
                 
-                dispTime
-                
+                VStack {
+                    dispTime
+                    if workout.setCount > 0 {
+                        Text("\(workoutCount)/\(workout.setCount)")
+                    }
+                }
             }
             .padding()
-            
+            buttonSection
             Form() {
-                timeSetSection
-                buttonSection
+                TimeSetSection
             }
         }
     }
@@ -61,67 +74,135 @@ struct TimerView: View {
             .font(.headline)
     }
     
-    private var timeSetSection: some View {
+    private var TimeSetSection: some View {
         Section {
-            Toggle(isOn: $isSetTime, label: {
-                Text(LocalizeString.Label.localized("EditTime"))
-            })
-            if isSetTime {
-                HStack {
-                    HStack {
-                        Picker(selection: $workout.workoutMin) {
-                            ForEach(0..<61) {
-                                Text("\($0)")
-                            }
-                        } label: { }
-                            .pickerStyle(.wheel)
-                        Text(LocalizeString.Label.localized("Min"))
-                    }
-                    HStack {
-                        Picker(selection: $workout.workoutSec) {
-                            ForEach(sec, id: \.self) {
-                                Text("\($0)")
-                            }
-                        } label: { }
-                            .pickerStyle(.wheel)
-                        Text(LocalizeString.Label.localized("Sec"))
-                    }
-                }
-                .frame(height: 90)
-            }
+            workoutTimeSetView
+            intervalTimeSetView
         }
     }
     
-    private var buttonSection: some View {
-        Section {
-            HStack(alignment: .center) {
-                Button("Cancel") {
-                    timer.invalidate()
-                    timer.displayMin = workout.workoutMin
-                    timer.displaySec = workout.workoutSec
-                    timer.progresValue = 0
-                    timer.status = .Start
+    @ViewBuilder
+    private var workoutTimeSetView: some View {
+        Toggle(isOn: $isWorkoutSetTime, label: {
+            Text(LocalizeString.Label.localized("EditTime"))
+        })
+        if isWorkoutSetTime {
+            HStack {
+                HStack {
+                    Picker(selection: $workout.workoutMin) {
+                        ForEach(0..<61) {
+                            Text("\($0)")
+                        }
+                    } label: { }
+                        .pickerStyle(.wheel)
+                    Text(LocalizeString.Label.localized("Min"))
                 }
-                .buttonStyle(.borderedProminent)
-                .disabled(timer.status == .Start)
-                
-                Spacer()
-                
-                Button("\(timer.status.rawValue)") {
-                    switch timer.status {
-                    case .Start, .Resume:
-                        timer.startTimer(setMin: workout.workoutMin, setSec: workout.workoutSec)
-                    case .Pause:
-                        timer.invalidate()
-                        timer.status = .Resume
-                    }
+                HStack {
+                    Picker(selection: $workout.workoutSec) {
+                        ForEach(sec, id: \.self) {
+                            Text("\($0)")
+                        }
+                    } label: { }
+                        .pickerStyle(.wheel)
+                    Text(LocalizeString.Label.localized("Sec"))
                 }
-                .buttonStyle(.borderedProminent)
-                .disabled(workout.workoutMin == 0 && workout.workoutSec == 0)
             }
+            .frame(height: 90)
         }
     }
-
+    
+    @ViewBuilder
+    private var intervalTimeSetView: some View {
+        Toggle(isOn: $isIntervalSetTime, label: {
+            Text(LocalizeString.Label.localized("EditInterval"))
+        })
+        if isIntervalSetTime {
+            HStack {
+                HStack {
+                    Picker(selection: $workout.intervalMin) {
+                        ForEach(0..<61) {
+                            Text("\($0)")
+                        }
+                    } label: { }
+                        .pickerStyle(.wheel)
+                    Text(LocalizeString.Label.localized("Min"))
+                }
+                HStack {
+                    Picker(selection: $workout.intervalSec) {
+                        ForEach(sec, id: \.self) {
+                            Text("\($0)")
+                        }
+                    } label: { }
+                        .pickerStyle(.wheel)
+                    Text(LocalizeString.Label.localized("Sec"))
+                }
+            }
+            .frame(height: 90)
+        }
+    }
+    
+    @ViewBuilder
+    private var buttonSection: some View {
+        HStack(alignment: .center) {
+            Button(workoutStatus == .interval ? LocalizeString.Button.localized("Skip") : LocalizeString.Button.localized("Interval")) {
+                timer.invalidate()
+                timer.status = .Start
+                if workoutStatus == .interval {
+                    startWorkout()
+                } else {
+                    workoutStatus = .interval
+                    start(min: workout.intervalMin, sec: workout.intervalSec)
+                }
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(workout.intervalMin == 0 && workout.intervalSec == 0)
+            
+            Button(LocalizeString.Button.localized(String.LocalizationValue(timer.status.rawValue)), action: {
+                if workoutStatus == .workout {
+                    startWorkout()
+                } else {
+                    start(min: workout.intervalMin, sec: workout.intervalSec)
+                }
+            })
+            .buttonStyle(.borderedProminent)
+            .disabled(workout.workoutMin == 0 && workout.workoutSec == 0)
+        }
+        
+        Button(LocalizeString.Button.localized("Cancel"), action: { cancel() })
+            .buttonStyle(.borderedProminent)
+            .disabled(timer.status == .Start)
+        
+        
+    }
+    
+    private func cancel() {
+        timer.invalidate()
+        timer.displayMin = workout.workoutMin
+        timer.displaySec = workout.workoutSec
+        timer.progresValue = 0
+        timer.status = .Start
+        workoutCount = 0
+    }
+    
+    private func start(min: Int, sec: Int) {
+        switch timer.status {
+        case .Start, .Resume:
+            timer.startTimer(setMin: min, setSec: sec)
+        case .Pause:
+            timer.invalidate()
+            timer.status = .Resume
+        }
+    }
+    
+    private func startWorkout() {
+        if timer.status != .Pause {
+            if workout.setCount > workoutCount {
+                workoutCount += 1
+            }
+        }
+        workoutStatus = .workout
+        start(min: workout.workoutMin, sec: workout.workoutSec)
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
