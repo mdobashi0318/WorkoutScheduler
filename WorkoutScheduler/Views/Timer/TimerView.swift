@@ -77,6 +77,9 @@ struct TimerView: View {
                 isEdit = false
             }
         }
+        .onDisappear {
+            timer.invalidate()
+        }
     }
     
     private var dispTime: some View {
