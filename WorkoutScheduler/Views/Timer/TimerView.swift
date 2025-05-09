@@ -26,6 +26,8 @@ struct TimerView: View {
     
     @State private var workoutCount: Int = 0
     
+    @State private var isEdit: Bool = true
+    
     private let sec: [Int] = {
         var secs: [Int] = []
         for i in 0..<60 where i % 5 == 0 {
@@ -61,8 +63,18 @@ struct TimerView: View {
             .padding()
             buttonSection
             Form() {
-                TimeSetSection
-                countSetView
+                if isEdit {
+                    TimeSetSection
+                    countSetView
+                }
+            }
+        }
+        .task(id: timer.status) {
+            switch timer.status {
+            case .Start, .Resume:
+                isEdit = true
+            case .Pause:
+                isEdit = false
             }
         }
     }
@@ -175,6 +187,7 @@ struct TimerView: View {
             }
             .buttonStyle(.borderedProminent)
             .disabled(workout.intervalMin == 0 && workout.intervalSec == 0)
+            .padding(.trailing, 2.5)
             
             Button(LocalizeString.Button.localized(String.LocalizationValue(timer.status.rawValue)), action: {
                 if workoutStatus == .workout {
@@ -185,13 +198,13 @@ struct TimerView: View {
             })
             .buttonStyle(.borderedProminent)
             .disabled(workout.workoutMin == 0 && workout.workoutSec == 0)
+            .padding(.leading, 2.5)
         }
         
-        Button(LocalizeString.Button.localized("Cancel"), action: { cancel() })
+        Button(LocalizeString.Button.localized("Cancel"), action: cancel)
             .buttonStyle(.borderedProminent)
             .disabled(timer.status == .Start)
-        
-        
+            .padding(.top)
     }
     
     private func cancel() {
