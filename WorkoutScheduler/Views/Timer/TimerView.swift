@@ -61,13 +61,17 @@ struct TimerView: View {
                 }
             }
             .padding()
-            buttonSection
+            
             Form() {
                 if isEdit {
                     TimeSetSection
                     countSetView
                 }
+                
             }
+            Spacer()
+            buttonSection
+                .padding(.bottom, 50)
         }
         .task(id: timer.status) {
             switch timer.status {
@@ -178,6 +182,12 @@ struct TimerView: View {
     @ViewBuilder
     private var buttonSection: some View {
         HStack(alignment: .center) {
+            Button(LocalizeString.Button.localized("Cancel"), action: cancel)
+                .buttonStyle(.borderedProminent)
+                .disabled(timer.status == .Start)
+                .padding(.leading)
+            
+            Spacer()
             Button(workoutStatus == .interval ? LocalizeString.Button.localized("Skip") : LocalizeString.Button.localized("Interval")) {
                 timer.invalidate()
                 timer.status = .Start
@@ -190,7 +200,6 @@ struct TimerView: View {
             }
             .buttonStyle(.borderedProminent)
             .disabled(workout.intervalMin == 0 && workout.intervalSec == 0)
-            .padding(.trailing, 2.5)
             
             Button(LocalizeString.Button.localized(String.LocalizationValue(timer.status.rawValue)), action: {
                 if workoutStatus == .workout {
@@ -201,13 +210,10 @@ struct TimerView: View {
             })
             .buttonStyle(.borderedProminent)
             .disabled(workout.workoutMin == 0 && workout.workoutSec == 0)
-            .padding(.leading, 2.5)
+            .padding(.trailing)
         }
         
-        Button(LocalizeString.Button.localized("Cancel"), action: cancel)
-            .buttonStyle(.borderedProminent)
-            .disabled(timer.status == .Start)
-            .padding(.top)
+        
     }
     
     private func cancel() {

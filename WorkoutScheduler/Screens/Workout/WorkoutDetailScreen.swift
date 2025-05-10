@@ -14,5 +14,6 @@ struct WorkoutDetailScreen: View {
     var body: some View {
         Text(workout.name)
         TimerView(workout: workout)
+            .toolbar(.hidden, for: .tabBar)
     }
 }
