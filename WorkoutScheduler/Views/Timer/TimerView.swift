@@ -16,7 +16,7 @@ struct TimerView: View {
     
     @State private var timer = TimerObject()
     
-    @State var workout: Workout
+    @Binding var workout: Workout
     
     @State var isWorkoutSetTime: Bool = false
     @State var isIntervalSetTime: Bool = false
@@ -27,6 +27,8 @@ struct TimerView: View {
     @State private var workoutCount: Int = 0
     
     @State private var isEdit: Bool = true
+    
+    @State private var isNameSet: Bool = false
     
     private let sec: [Int] = {
         var secs: [Int] = []
@@ -64,6 +66,7 @@ struct TimerView: View {
             
             Form() {
                 if isEdit {
+                    nameSetView
                     TimeSetSection
                     countSetView
                 }
@@ -211,9 +214,20 @@ struct TimerView: View {
             .buttonStyle(.borderedProminent)
             .disabled(workout.workoutMin == 0 && workout.workoutSec == 0)
             .padding(.trailing)
-        }
-        
-        
+        }   
+    }
+    
+    
+    @ViewBuilder
+    private var nameSetView: some View {
+        Section(content: {
+            Toggle(isOn: $isNameSet, label: {
+                Text(LocalizeString.Label.localized("EditName"))
+            })
+            if isNameSet {
+                TextField("", text:$workout.name)
+            }
+        })
     }
     
     private func cancel() {
@@ -248,6 +262,6 @@ struct TimerView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerView(workout: Workout())
+        TimerView(workout: .constant(Workout()))
     }
 }

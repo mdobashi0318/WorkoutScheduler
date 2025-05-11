@@ -18,6 +18,23 @@
         }
       }
     },
+    "EditName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit title"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タイトルを編集する"
+          }
+        }
+      }
+    },
     "EditSetCount" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -29,7 +46,7 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "セット数を編集する"
           }
         }
