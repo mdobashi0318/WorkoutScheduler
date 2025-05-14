@@ -17,6 +17,10 @@ struct WorkoutScreen: View {
     @Query private var workouts: [Workout]
     
     @State private var showAlert: Bool = false
+    
+    init() {
+        _workouts = Query(sort: [SortDescriptor(\Workout.name)])
+    }
 
     var body: some View {
         NavigationStack {
@@ -68,9 +72,8 @@ struct WorkoutScreen: View {
             } catch {
                 showAlert = true
             }
-            
-            
         }
     }
+    
 }
 
