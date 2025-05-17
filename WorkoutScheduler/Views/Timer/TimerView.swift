@@ -16,7 +16,7 @@ struct TimerView: View {
     
     @State private var timer = TimerObject()
     
-    @Binding var workout: Workout
+    var workout: Workout
     
     @State var isWorkoutSetTime: Bool = false
     @State var isIntervalSetTime: Bool = false
@@ -63,15 +63,7 @@ struct TimerView: View {
                 }
             }
             .padding()
-            
-            Form() {
-                if isEdit {
-                    nameSetView
-                    TimeSetSection
-                    countSetView
-                }
-                
-            }
+
             Spacer()
             buttonSection
                 .padding(.bottom, 50)
@@ -96,90 +88,6 @@ struct TimerView: View {
         return Text("\(min) \(sec)")
             .dynamicTypeSize(.large)
             .font(.headline)
-    }
-    
-    private var TimeSetSection: some View {
-        Section {
-            workoutTimeSetView
-            intervalTimeSetView
-        }
-    }
-    
-    @ViewBuilder
-    private var workoutTimeSetView: some View {
-        Toggle(isOn: $isWorkoutSetTime, label: {
-            Text(LocalizeString.Label.localized("EditTime"))
-        })
-        if isWorkoutSetTime {
-            HStack {
-                HStack {
-                    Picker(selection: $workout.workoutMin) {
-                        ForEach(0..<61) {
-                            Text("\($0)")
-                        }
-                    } label: { }
-                        .pickerStyle(.wheel)
-                    Text(LocalizeString.Label.localized("Min"))
-                }
-                HStack {
-                    Picker(selection: $workout.workoutSec) {
-                        ForEach(sec, id: \.self) {
-                            Text("\($0)")
-                        }
-                    } label: { }
-                        .pickerStyle(.wheel)
-                    Text(LocalizeString.Label.localized("Sec"))
-                }
-            }
-            .frame(height: 90)
-        }
-    }
-    
-    @ViewBuilder
-    private var intervalTimeSetView: some View {
-        Toggle(isOn: $isIntervalSetTime, label: {
-            Text(LocalizeString.Label.localized("EditInterval"))
-        })
-        if isIntervalSetTime {
-            HStack {
-                HStack {
-                    Picker(selection: $workout.intervalMin) {
-                        ForEach(0..<61) {
-                            Text("\($0)")
-                        }
-                    } label: { }
-                        .pickerStyle(.wheel)
-                    Text(LocalizeString.Label.localized("Min"))
-                }
-                HStack {
-                    Picker(selection: $workout.intervalSec) {
-                        ForEach(sec, id: \.self) {
-                            Text("\($0)")
-                        }
-                    } label: { }
-                        .pickerStyle(.wheel)
-                    Text(LocalizeString.Label.localized("Sec"))
-                }
-            }
-            .frame(height: 90)
-        }
-    }
-    
-    
-    @ViewBuilder
-    private var countSetView: some View {
-        Toggle(isOn: $isCountSet, label: {
-            Text(LocalizeString.Label.localized("EditSetCount"))
-        })
-        
-        if isCountSet {
-            Picker(LocalizeString.Label.localized("SetCount"), selection: $workout.setCount) {
-                ForEach(1..<61) {
-                    Text("\($0)")
-                        .tag($0)
-                }
-            }
-        }
     }
     
     @ViewBuilder
@@ -217,19 +125,6 @@ struct TimerView: View {
         }   
     }
     
-    
-    @ViewBuilder
-    private var nameSetView: some View {
-        Section(content: {
-            Toggle(isOn: $isNameSet, label: {
-                Text(LocalizeString.Label.localized("EditName"))
-            })
-            if isNameSet {
-                TextField("", text:$workout.name)
-            }
-        })
-    }
-    
     private func cancel() {
         timer.invalidate()
         timer.displayMin = workout.workoutMin
@@ -262,6 +157,6 @@ struct TimerView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerView(workout: .constant(Workout()))
+        TimerView(workout: Workout())
     }
 }
