@@ -28,6 +28,16 @@ struct WorkoutAddScreen: View {
         return secs
     }()
     
+    init(workout: Workout) {
+        _workout = .init(initialValue: workout)
+        self.workout.noSaveWorkoutMin = self.workout.workoutMin
+        self.workout.noSaveWorkoutSec = self.workout.workoutSec
+        self.workout.noSaveIntervalMin = self.workout.intervalMin
+        self.workout.noSaveIntervalSec = self.workout.intervalSec
+        self.workout.noSaveSetCount = self.workout.setCount
+    }
+    
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -66,7 +76,7 @@ struct WorkoutAddScreen: View {
         Section(content: {
             HStack {
                 HStack {
-                    Picker(selection: $workout.workoutMin) {
+                    Picker(selection: $workout.noSaveWorkoutMin) {
                         ForEach(0..<60) {
                             Text("\($0)")
                                 .tag($0)
@@ -77,7 +87,7 @@ struct WorkoutAddScreen: View {
                 }
                 
                 HStack {
-                    Picker(selection: $workout.workoutSec) {
+                    Picker(selection: $workout.noSaveWorkoutSec) {
                         ForEach(sec, id: \.self) {
                             Text("\($0)")
                                 .tag($0)
@@ -88,7 +98,7 @@ struct WorkoutAddScreen: View {
                 }
             }
             .frame(height: 90)
-            Picker(LocalizeString.Label.localized("SetCount"), selection: $workout.setCount) {
+            Picker(LocalizeString.Label.localized("SetCount"), selection: $workout.noSaveSetCount) {
                 ForEach(1..<61) {
                     Text("\($0)")
                         .tag($0)
@@ -104,7 +114,7 @@ struct WorkoutAddScreen: View {
         Section(content: {
             HStack {
                 HStack {
-                    Picker(selection: $workout.intervalMin) {
+                    Picker(selection: $workout.noSaveIntervalMin) {
                         ForEach(0..<60) {
                             Text("\($0)")
                                 .tag($0)
@@ -115,7 +125,7 @@ struct WorkoutAddScreen: View {
                 }
                 
                 HStack {
-                    Picker(selection: $workout.intervalSec) {
+                    Picker(selection: $workout.noSaveIntervalSec) {
                         ForEach(sec, id:\.self) {
                             Text("\($0)")
                                 .tag($0)
@@ -135,6 +145,7 @@ struct WorkoutAddScreen: View {
     private var topBarLeading: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             IconButton(action: {
+                modelContext.rollback()
                 dismiss()
             }, iconName: .xmark)
         }
@@ -156,8 +167,12 @@ struct WorkoutAddScreen: View {
         }
         
         do {
-            workout.add()
-            modelContext.insert(workout)
+            if workout.id.isEmpty {
+                workout.add()
+                modelContext.insert(workout)
+            } else {
+                workout.update()
+            }
             try modelContext.save()
             dismiss()
         } catch {

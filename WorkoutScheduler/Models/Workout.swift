@@ -28,13 +28,39 @@ class Workout {
     
     var updated_at: String = ""
     
+    @Transient
+    var noSaveWorkoutMin: Int = 0
+    @Transient
+    var noSaveWorkoutSec: Int = 0
+    @Transient
+    var noSaveIntervalMin: Int = 0
+    @Transient
+    var noSaveIntervalSec: Int = 0
+    @Transient
+    var noSaveSetCount: Int = 0
+    
     init() { }
     
     func add() {
         let date = DateFormatter.created_at
         id = UUID().uuidString
+        setTime()
         created_at = date
         updated_at = date
+    }
+    
+    func update() {
+        setTime()
+        updated_at = DateFormatter.created_at
+    }
+    
+    
+    private func setTime() {
+        workoutMin = noSaveWorkoutMin
+        workoutSec = noSaveWorkoutSec
+        setCount = noSaveSetCount
+        intervalMin = noSaveIntervalMin
+        intervalSec = noSaveIntervalSec
     }
     
 }
