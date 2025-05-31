@@ -11,12 +11,10 @@ import SwiftData
 @main
 struct WorkoutSchedulerApp: App {
     
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegates
-    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: [Workout.self, WorkoutSchedule.self], isAutosaveEnabled: false)
+                .modelContainer(for: Workout.self, isAutosaveEnabled: false)
         }
     }
 }
