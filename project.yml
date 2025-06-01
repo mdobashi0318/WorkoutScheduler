@@ -1,6 +1,6 @@
-name: WorkoutScheduler
+name: WorkoutTimer
 targets:
-  WorkoutScheduler:
+  WorkoutTimer:
     type: application
     platform: iOS
     deploymentTarget: &deployment_target "18.0"
@@ -47,7 +47,7 @@ targets:
          PRODUCT_NAME: "$(TARGET_NAME)"
          TEST_HOST: "$(BUILT_PRODUCTS_DIR)/WorkoutScheduler.app/WorkoutScheduler"
       dependencies:
-      - target: WorkoutScheduler
+      - target: WorkoutTimer
 
 packages:
  XcodeGen:
@@ -59,7 +59,7 @@ schemes:
   WorkoutScheduler:
     build:
       targets:
-        WorkoutScheduler: all
+        WorkoutTimer: all
         WorkoutSchedulerTests: [test]
     run:
       config: Debug
@@ -67,7 +67,7 @@ schemes:
       config: Debug
       gatherCoverageData: true
       coverageTargets:
-        - WorkoutScheduler
+        - WorkoutTimer
       targets:
         - name: WorkoutSchedulerTests
           parallelizable: true
