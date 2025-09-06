@@ -9,10 +9,31 @@ import SwiftUI
 
 struct TimerView: View {
     
-    enum WorkoutStatus {
+    enum WorkoutStatus: String {
+        case notStarted
         case workout
         case interval
+        case ended
+        
+        var title: String {
+            LocalizeString.Label.localized(self.localizeKey)
+        }
+        
+        private var localizeKey: String.LocalizationValue {
+            return switch self {
+            case .workout:
+                "DuringExercise"
+            case .interval:
+                "DuringBreak"
+            case .ended:
+                "GoodWork"
+            default:
+                ""
+            }
+        }
     }
+    
+    @Environment(\.modelContext) private var modelContext
     
     @State private var timer = TimerObject()
     
@@ -22,13 +43,15 @@ struct TimerView: View {
     @State var isIntervalSetTime: Bool = false
     @State var isCountSet: Bool = false
     
-    @State private var workoutStatus: WorkoutStatus = .workout
+    @State private var workoutStatus: WorkoutStatus = .notStarted
     
     @State private var workoutCount: Int = 0
     
     @State private var isEdit: Bool = true
     
     @State private var isNameSet: Bool = false
+    
+    private let uuid = UUID().uuidString
     
     private let sec: [Int] = {
         var secs: [Int] = []
@@ -63,7 +86,8 @@ struct TimerView: View {
                 }
             }
             .padding()
-
+            Text(workoutStatus.title)
+            
             Spacer()
             buttonSection
                 .padding(.bottom, 50)
@@ -74,16 +98,32 @@ struct TimerView: View {
                 isEdit = true
             case .Pause:
                 isEdit = false
+            case .End:
+                if workoutStatus == .workout {
+                    addHistory()
+                } else {
+                    workoutStatus = .workout
+                }
             }
+        }
+        .task(id: workoutStatus) {
+            if workoutStatus == .ended {
+                addHistory()
+            }
+        }
+        .onAppear {
+            timer.initDisplayTime(workout.workoutMin, workout.workoutSec)
         }
         .onDisappear {
             timer.invalidate()
         }
     }
     
+    
+    
     private var dispTime: some View {
-        let min = "\(timer.status == .Start ?  workout.workoutMin : timer.displayMin)\(LocalizeString.Label.localized("Min"))"
-        let sec = "\(timer.status == .Start ?  workout.workoutSec : timer.displaySec)\(LocalizeString.Label.localized("Sec"))"
+        let min = "\(timer.displayMin)\(LocalizeString.Label.localized("Min"))"
+        let sec = "\(timer.displaySec)\(LocalizeString.Label.localized("Sec"))"
         
         return Text("\(min) \(sec)")
             .dynamicTypeSize(.large)
@@ -93,26 +133,36 @@ struct TimerView: View {
     @ViewBuilder
     private var buttonSection: some View {
         HStack(alignment: .center) {
-            Button(LocalizeString.Button.localized("Cancel"), action: cancel)
-                .buttonStyle(.borderedProminent)
-                .disabled(timer.status == .Start)
-                .padding(.leading)
-            
-            Spacer()
-            Button(workoutStatus == .interval ? LocalizeString.Button.localized("Skip") : LocalizeString.Button.localized("Interval")) {
-                timer.invalidate()
-                timer.status = .Start
-                if workoutStatus == .interval {
-                    startWorkout()
-                } else {
-                    workoutStatus = .interval
-                    start(min: workout.intervalMin, sec: workout.intervalSec)
+            if workoutStatus != .notStarted {
+                /// キャンセルボタン
+                Button(LocalizeString.Button.localized("Cancel"), action: cancel)
+                    .buttonStyle(.borderedProminent)
+                    .disabled(timer.status == .End)
+                    .padding(.leading)
+                Spacer()
+                
+                /// 休憩ボタン
+                Button(workoutStatus == .interval ? LocalizeString.Button.localized("Skip") : LocalizeString.Button.localized("Interval")) {
+                    timer.invalidate()
+                    timer.status = .Start
+                    if workoutStatus == .interval {
+                        startWorkout()
+                    } else {
+                        workoutStatus = .interval
+                        start(min: workout.intervalMin, sec: workout.intervalSec)
+                    }
                 }
+                .buttonStyle(.borderedProminent)
+                .disabled(workout.intervalMin == 0 && workout.intervalSec == 0)
+                .padding(.trailing)
             }
-            .buttonStyle(.borderedProminent)
-            .disabled(workout.intervalMin == 0 && workout.intervalSec == 0)
             
-            Button(LocalizeString.Button.localized(String.LocalizationValue(timer.status.rawValue)), action: {
+            /// 開始ボタン
+            Button(timer.status.title, action: {
+                if workoutStatus == .notStarted {
+                    workoutStatus = .workout
+                }
+                
                 if workoutStatus == .workout {
                     startWorkout()
                 } else {
@@ -122,7 +172,7 @@ struct TimerView: View {
             .buttonStyle(.borderedProminent)
             .disabled(workout.workoutMin == 0 && workout.workoutSec == 0)
             .padding(.trailing)
-        }   
+        }
     }
     
     private func cancel() {
@@ -130,14 +180,19 @@ struct TimerView: View {
         timer.displayMin = workout.workoutMin
         timer.displaySec = workout.workoutSec
         timer.progresValue = 0
-        timer.status = .Start
+        timer.status = .End
         workoutCount = 0
+        workoutStatus = .ended
     }
     
     private func start(min: Int, sec: Int) {
         switch timer.status {
-        case .Start, .Resume:
+        case .Start, .End:
             timer.startTimer(setMin: min, setSec: sec)
+            timer.status = .Pause
+        case .Resume:
+            timer.startTimer(setMin: min, setSec: sec)
+            timer.status = .Pause
         case .Pause:
             timer.invalidate()
             timer.status = .Resume
@@ -153,6 +208,14 @@ struct TimerView: View {
         workoutStatus = .workout
         start(min: workout.workoutMin, sec: workout.workoutSec)
     }
+    
+    private func addHistory() {
+        let history = History()
+        history.add(id: uuid, workoutId: workout.id)
+        modelContext.insert(history)
+        try? modelContext.save()
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

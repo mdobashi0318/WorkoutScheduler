@@ -28,6 +28,7 @@ struct IconButton: View {
         case ellipsis
         case xmark
         case pencil
+        case clock
         case other(name: String)
         
         
@@ -43,6 +44,8 @@ struct IconButton: View {
                 return "xmark"
             case .pencil:
                 return "pencil"
+            case .clock:
+                return "clock"
             case .other(let name):
                 return name
             }
