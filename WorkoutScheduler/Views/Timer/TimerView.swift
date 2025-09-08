@@ -51,7 +51,9 @@ struct TimerView: View {
     
     @State private var isNameSet: Bool = false
     
-    private let uuid = UUID().uuidString
+    let history: History
+    
+    @State private var isUpdate = false
     
     private let sec: [Int] = {
         var secs: [Int] = []
@@ -104,11 +106,6 @@ struct TimerView: View {
                 } else {
                     workoutStatus = .workout
                 }
-            }
-        }
-        .task(id: workoutStatus) {
-            if workoutStatus == .ended {
-                addHistory()
             }
         }
         .onAppear {
@@ -210,9 +207,14 @@ struct TimerView: View {
     }
     
     private func addHistory() {
-        let history = History()
-        history.add(id: uuid, workoutId: workout.id)
-        modelContext.insert(history)
+        history.workoutData += timer.sec
+        if !isUpdate {
+            history.add(workoutId: workout.id)
+            modelContext.insert(history)
+            isUpdate = true
+        } else {
+            history.update(workoutId: workout.id)
+        }
         try? modelContext.save()
     }
     
@@ -220,6 +222,6 @@ struct TimerView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerView(workout: Workout())
+        TimerView(workout: Workout(), history: History())
     }
 }

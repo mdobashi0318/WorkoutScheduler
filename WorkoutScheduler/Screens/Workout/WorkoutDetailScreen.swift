@@ -18,9 +18,11 @@ struct WorkoutDetailScreen: View {
     
     @State private var showHistorySheet = false
     
+    private let history = History()
+    
     var body: some View {
         Text(workout.name)
-        TimerView(workout: workout)
+        TimerView(workout: workout, history: history)
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     IconButton(action: {
@@ -36,7 +38,7 @@ struct WorkoutDetailScreen: View {
                 WorkoutAddScreen(workout: workout)
             }
             .sheet(isPresented: $showHistorySheet) {
-                HistoryScreen()
+                HistoryScreen(workout: workout)
             }
     }
     

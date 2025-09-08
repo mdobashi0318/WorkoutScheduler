@@ -13,14 +13,27 @@ struct HistoryScreen: View {
     @Environment(\.dismiss) private var dismiss
     
     @Query private var history: [History]
+    
+    let workout: Workout
+    
+    init(workout: Workout) {
+        self.workout = workout
+        let workoutId: String = workout.id
+        _history = Query(filter: #Predicate { model in
+            model.workoutId.localizedStandardContains(workoutId)
+        })
+    }
 
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(history) {
-                    Text($0.workoutDate)
-                    
+                ForEach(history) { model in
+                    VStack(alignment: .leading) {
+                        Text(workout.name)
+                        Text(model.date)
+                        Text("\(model.workoutData)")
+                    }
                 }
             }
                 .navigationTitle("HistoryScreen")
@@ -36,5 +49,5 @@ struct HistoryScreen: View {
 }
 
 #Preview {
-    HistoryScreen()
+    HistoryScreen(workout: Workout())
 }

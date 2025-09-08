@@ -45,7 +45,7 @@ class TimerObject {
     var status = Status.Start
     
     private(set) var timer :Timer?
-    private var sec = 0
+    private(set) var sec = 0
     
     func initDisplayTime(_ min: Int, _ sec: Int) {
         self.displayMin = min
