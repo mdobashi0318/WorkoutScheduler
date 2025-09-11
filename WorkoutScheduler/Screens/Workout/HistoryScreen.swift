@@ -23,28 +23,32 @@ struct HistoryScreen: View {
             model.workoutId.localizedStandardContains(workoutId)
         })
     }
-
     
     var body: some View {
         NavigationStack {
             List {
                 ForEach(history) { model in
                     VStack(alignment: .leading) {
-                        Text(workout.name)
                         Text(model.date)
-                        Text("\(model.workoutData)")
+                        Text(workoutTime(model.workoutData))
                     }
                 }
             }
-                .navigationTitle("HistoryScreen")
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        IconButton(action: {
-                            dismiss()
-                        }, iconName: .xmark)
-                    }
+            .navigationTitle("HistoryScreen")
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    IconButton(action: {
+                        dismiss()
+                    }, iconName: .xmark)
                 }
+            }
         }
+    }
+    
+    private func workoutTime(_ time: Int) -> String {
+        let min = Int(time / 60)
+        let sec = time - Int(min * 60)
+        return "\(min) \(LocalizeString.Label.localized("Min")) \(sec) \(LocalizeString.Label.localized("Sec"))"
     }
 }
 
