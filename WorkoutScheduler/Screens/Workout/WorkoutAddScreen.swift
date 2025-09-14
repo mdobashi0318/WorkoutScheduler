@@ -20,6 +20,8 @@ struct WorkoutAddScreen: View {
     
     @State private var alertMessage = ""
     
+    @State var setCount: Int = 0
+    
     private let sec: [Int] = {
         var secs: [Int] = []
         for i in 0..<60 where i % 5 == 0 {
@@ -34,7 +36,7 @@ struct WorkoutAddScreen: View {
         self.workout.noSaveWorkoutSec = self.workout.workoutSec
         self.workout.noSaveIntervalMin = self.workout.intervalMin
         self.workout.noSaveIntervalSec = self.workout.intervalSec
-        self.workout.noSaveSetCount = self.workout.setCount
+        _setCount = .init(initialValue: workout.setCount)
     }
     
     
@@ -98,8 +100,8 @@ struct WorkoutAddScreen: View {
                 }
             }
             .frame(height: 90)
-            Picker(LocalizeString.Label.localized("SetCount"), selection: $workout.noSaveSetCount) {
-                ForEach(1..<61) {
+            Picker(LocalizeString.Label.localized("SetCount"), selection: $setCount) {
+                ForEach(0..<11) {
                     Text("\($0)")
                         .tag($0)
                 }
@@ -168,10 +170,10 @@ struct WorkoutAddScreen: View {
         
         do {
             if workout.id.isEmpty {
-                workout.add()
+                workout.add(setCount: setCount)
                 modelContext.insert(workout)
             } else {
-                workout.update()
+                workout.update(setCount: setCount)
             }
             try modelContext.save()
             dismiss()
