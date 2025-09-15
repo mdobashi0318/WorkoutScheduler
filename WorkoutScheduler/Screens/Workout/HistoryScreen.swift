@@ -12,6 +12,8 @@ struct HistoryScreen: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    @Environment(\.modelContext) private var modelContext
+    
     @Query private var history: [History]
     
     let workout: Workout
@@ -33,6 +35,7 @@ struct HistoryScreen: View {
                         Text(workoutTime(model.workoutData))
                     }
                 }
+                .onDelete(perform: delete)
             }
             .navigationTitle("HistoryScreen")
             .toolbar {
@@ -57,6 +60,14 @@ struct HistoryScreen: View {
             return dateStr
         }
         return dateStr + " ~ " + DateFormatter.format_MMddHHmm(modifiedDate)
+    }
+    
+    private func delete(at offsets: IndexSet) {
+        for offset in offsets {
+            let history = history[offset]
+            modelContext.delete(history)
+            try? modelContext.save()
+        }
     }
     
 }
