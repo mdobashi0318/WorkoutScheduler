@@ -112,6 +112,9 @@ struct TimerView: View {
             timer.initDisplayTime(workout.workoutMin, workout.workoutSec)
         }
         .onDisappear {
+            if workoutStatus == .workout {
+                addHistory()
+            }
             timer.invalidate()
         }
     }
@@ -173,6 +176,10 @@ struct TimerView: View {
     }
     
     private func cancel() {
+        if workoutStatus == .workout {
+            addHistory()
+        }
+        
         timer.invalidate()
         timer.displayMin = workout.workoutMin
         timer.displaySec = workout.workoutSec
