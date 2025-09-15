@@ -29,7 +29,7 @@ struct HistoryScreen: View {
             List {
                 ForEach(history) { model in
                     VStack(alignment: .leading) {
-                        Text(model.date)
+                        Text(timeElapsed(dateStr: model.date, addTime: model.workoutData))
                         Text(workoutTime(model.workoutData))
                     }
                 }
@@ -50,6 +50,15 @@ struct HistoryScreen: View {
         let sec = time - Int(min * 60)
         return "\(min) \(LocalizeString.Label.localized("Min")) \(sec) \(LocalizeString.Label.localized("Sec"))"
     }
+    
+    private func timeElapsed(dateStr: String, addTime: Int) -> String {
+        let date = DateFormatter.format_yyyyMMddHHmm_str(dateStr)
+        guard let modifiedDate = Calendar.current.date(byAdding: .minute, value: Int(addTime / 60), to: date) else {
+            return dateStr
+        }
+        return dateStr + " ~ " + DateFormatter.format_MMddHHmm(modifiedDate)
+    }
+    
 }
 
 #Preview {

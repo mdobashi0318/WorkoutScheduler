@@ -32,6 +32,19 @@ extension DateFormatter {
         return dateFormatter.string(from: date)
     }
     
+    // Date型をHH:mm形式で文字列を返す
+    static func format_MMddHHmm(_ date: Date = Date.now) -> String {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        guard let dateComponents = dateFormatter.calendar.dateComponents([.hour, .minute], from: date).date else {
+            return dateFormatter.string(from: date)
+        }
+        return dateFormatter.string(from: dateComponents)
+    }
+    
     // String型をyyy/MM/dd HH:mm形式でDate型を返す
     static func format_yyyyMMddHHmm_str(_ date: String) -> Date {
         let dateFormatter = DateFormatter()
