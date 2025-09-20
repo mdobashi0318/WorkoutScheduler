@@ -24,6 +24,9 @@ class Workout {
     var intervalMin: Int = 0
     var intervalSec: Int = 0
     
+    @Relationship(deleteRule: .cascade, inverse: \History.workout)
+    var history: [History] = []
+    
     var created_at: String = ""
     
     var updated_at: String = ""

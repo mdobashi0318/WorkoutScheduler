@@ -83,8 +83,12 @@ class TimerObject {
         }
     }
     
-    func  invalidate() {
+    func invalidate() {
         timer?.invalidate()
         UIApplication.shared.isIdleTimerDisabled = false
+    }
+    
+    func resetSec() {
+        sec = 0
     }
 }

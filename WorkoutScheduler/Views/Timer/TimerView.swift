@@ -231,13 +231,14 @@ struct TimerView: View {
     private func addHistory() {
         history.workoutData += timer.sec
         if !isUpdate {
-            history.add(workoutId: workout.id)
+            history.add(workout: workout)
             modelContext.insert(history)
             isUpdate = true
         } else {
-            history.update(workoutId: workout.id)
+            history.update()
         }
         try? modelContext.save()
+        timer.resetSec()
     }
     
 }

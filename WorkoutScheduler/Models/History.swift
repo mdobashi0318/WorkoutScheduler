@@ -13,13 +13,14 @@ class History {
     
     @Attribute(.unique)
     var id: String = ""
-    
-    var workoutId: String = ""
-    
     /// 実施した時間の累計
     var workoutData: Int = 0
     /// 実施日
-    var date: String = ""
+    var startDate: String = ""
+    
+    var endDate: String = ""
+    
+    var workout: Workout?
 
     var created_at: String = ""
     
@@ -30,16 +31,17 @@ class History {
     }
     
     
-    func add(workoutId: String) {
+    func add(workout: Workout) {
         let now = DateFormatter.created_at
-        self.workoutId = workoutId
-        date = DateFormatter.format_yyyyMMddHHmm()
+        startDate = DateFormatter.format_yyyyMMddHHmm()
+        endDate = DateFormatter.format_yyyyMMddHHmm()
+        self.workout = workout
         created_at = now
         updated_at = now
     }
     
-    func update(workoutId: String) {
-        self.workoutId = workoutId
+    func update() {
+        endDate = DateFormatter.format_yyyyMMddHHmm()
         updated_at = DateFormatter.created_at
     }
     
