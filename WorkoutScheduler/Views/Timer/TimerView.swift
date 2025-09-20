@@ -63,6 +63,8 @@ struct TimerView: View {
         return secs
     }()
     
+    private let buttonHeight: CGFloat = 25
+    
     var body: some View {
         VStack {
             ZStack {
@@ -135,14 +137,18 @@ struct TimerView: View {
         HStack(alignment: .center) {
             if workoutStatus != .notStarted {
                 /// キャンセルボタン
-                Button(LocalizeString.Button.localized("Cancel"), action: cancel)
+                Button(action: cancel,
+                       label: {
+                    Text(LocalizeString.Button.localized("Cancel"))
+                        .frame(maxHeight: buttonHeight)
+                })
                     .buttonStyle(.borderedProminent)
                     .disabled(timer.status == .End)
                     .padding(.leading)
                 Spacer()
                 
                 /// 休憩ボタン
-                Button(workoutStatus == .interval ? LocalizeString.Button.localized("Skip") : LocalizeString.Button.localized("Interval")) {
+                Button(action: {
                     timer.invalidate()
                     timer.status = .Start
                     if workoutStatus == .interval {
@@ -151,14 +157,18 @@ struct TimerView: View {
                         workoutStatus = .interval
                         start(min: workout.intervalMin, sec: workout.intervalSec)
                     }
-                }
+                }, label: {
+                    Text(workoutStatus == .interval ? LocalizeString.Button.localized("Skip") : LocalizeString.Button.localized("Interval"))
+                        .frame(maxHeight: buttonHeight)
+                    
+                })
                 .buttonStyle(.borderedProminent)
                 .disabled(workout.intervalMin == 0 && workout.intervalSec == 0)
                 .padding(.trailing)
             }
             
             /// 開始ボタン
-            Button(timer.status.title, action: {
+            Button(action: {
                 if workoutStatus == .notStarted {
                     workoutStatus = .workout
                 }
@@ -168,10 +178,15 @@ struct TimerView: View {
                 } else {
                     start(min: workout.intervalMin, sec: workout.intervalSec)
                 }
+            }, label: {
+                Text(timer.status.title)
+                    .frame(maxWidth: .infinity, maxHeight: buttonHeight)
             })
             .buttonStyle(.borderedProminent)
             .disabled(workout.workoutMin == 0 && workout.workoutSec == 0)
-            .padding(.trailing)
+            .padding(.horizontal, 32)
+            
+            
         }
     }
     
