@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct WorkoutScreen: View {
+struct WorkoutListScreen: View {
     
     @Environment(\.modelContext) private var modelContext
     

@@ -38,7 +38,7 @@ struct WorkoutDetailScreen: View {
                 WorkoutAddScreen(workout: workout)
             }
             .sheet(isPresented: $showHistorySheet) {
-                HistoryScreen(workout: workout)
+                WorkoutHistoryScreen(workout: workout)
             }
     }
     

@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct HistoryScreen: View {
+struct WorkoutHistoryScreen: View {
     
     @Environment(\.dismiss) private var dismiss
     
@@ -73,5 +73,5 @@ struct HistoryScreen: View {
 }
 
 #Preview {
-    HistoryScreen(workout: Workout())
+    WorkoutHistoryScreen(workout: Workout())
 }
