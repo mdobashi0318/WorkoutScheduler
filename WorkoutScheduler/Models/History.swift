@@ -45,4 +45,18 @@ class History {
         updated_at = DateFormatter.created_at
     }
     
+    
+    func workoutTime() -> String {
+        let time = workoutData
+        let min = Int(time / 60)
+        let sec = time - Int(min * 60)
+        return "\(min) \(LocalizeString.Label.localized("Min")) \(sec) \(LocalizeString.Label.localized("Sec"))"
+    }
+    
+    
+    func timeElapsed() -> String {
+        let endDate = DateFormatter.format_yyyyMMddHHmm_str(self.endDate)
+        return self.startDate + "~" + DateFormatter.format_MMddHHmm(endDate)
+    }
+    
 }

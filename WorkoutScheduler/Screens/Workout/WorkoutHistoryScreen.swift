@@ -34,8 +34,8 @@ struct WorkoutHistoryScreen: View {
             List {
                 ForEach(history) { model in
                     VStack(alignment: .leading) {
-                        Text(timeElapsed(model))
-                        Text(workoutTime(model.workoutData))
+                        Text(model.timeElapsed())
+                        Text(model.workoutTime())
                     }
                 }
                 .onDelete(perform: delete)
@@ -49,17 +49,6 @@ struct WorkoutHistoryScreen: View {
                 }
             }
         }
-    }
-    
-    private func workoutTime(_ time: Int) -> String {
-        let min = Int(time / 60)
-        let sec = time - Int(min * 60)
-        return "\(min) \(LocalizeString.Label.localized("Min")) \(sec) \(LocalizeString.Label.localized("Sec"))"
-    }
-    
-    private func timeElapsed(_ history: History) -> String {
-        let endDate = DateFormatter.format_yyyyMMddHHmm_str(history.endDate)
-        return history.startDate + "~" + DateFormatter.format_MMddHHmm(endDate)
     }
     
     private func delete(at offsets: IndexSet) {

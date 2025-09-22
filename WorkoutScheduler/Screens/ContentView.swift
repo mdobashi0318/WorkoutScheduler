@@ -19,7 +19,7 @@ struct ContentView: View {
                         Image(systemName: "figure.walk")
                     })
                 }
-            WorkoutHistoryScreen(workout: Workout())
+            HistoryListScreen()
                 .tabItem {
                     Label(title: {
                         Text("History")
