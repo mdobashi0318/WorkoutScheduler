@@ -1,7 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
+    "%@" : {
 
     },
     "%@ %@" : {
@@ -17,46 +17,12 @@
     "%@: " : {
 
     },
-    "%lld" : {
-
-    },
-    "%lld/%lld" : {
+    "%@/%@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$lld/%2$lld"
-          }
-        }
-      }
-    },
-    "AddError" : {
-
-    },
-    "AddWorkoutScreen" : {
-
-    },
-    "Cancel" : {
-
-    },
-    "Close" : {
-
-    },
-    "deleteError" : {
-
-    },
-    "DuringBreak" : {
-
-    },
-    "DuringExercise" : {
-
-    },
-    "GoodWork" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "お疲れ様"
+            "value" : "%1$@/%2$@"
           }
         }
       }
@@ -64,16 +30,10 @@
     "History" : {
 
     },
-    "HistoryListScreen" : {
+    "NoHistoryList %@" : {
 
     },
-    "Interval" : {
-
-    },
-    "Min" : {
-
-    },
-    "NoHistoryList %1$" : {
+    "NoHistoryList %lld" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -90,47 +50,7 @@
         }
       }
     },
-    "NoHistoryList %lld" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "実施時間が%(variableName)lld秒以上の記録を表示します。"
-          }
-        }
-      }
-    },
-    "Pause" : {
-
-    },
-    "Resume" : {
-
-    },
-    "Sec" : {
-
-    },
-    "SetCount" : {
-
-    },
-    "SetWorkoutTime" : {
-
-    },
-    "Skip" : {
-
-    },
-    "StartWorkout" : {
-
-    },
-    "Title" : {
-
-    },
-    "Validation" : {
-
-    },
     "Workout" : {
-
-    },
-    "WorkoutScreen" : {
 
     }
   },
