@@ -147,24 +147,9 @@ struct TimerView: View {
                     .padding(.leading)
                 Spacer()
                 
-                /// 休憩ボタン
-                Button(action: {
-                    timer.invalidate()
-                    timer.status = .Start
-                    if workoutStatus == .interval {
-                        startWorkout()
-                    } else {
-                        workoutStatus = .interval
-                        start(min: workout.intervalMin, sec: workout.intervalSec)
-                    }
-                }, label: {
-                    Text(workoutStatus == .interval ? LocalizeString.Button.localized("Skip") : LocalizeString.Button.localized("Interval"))
-                        .frame(maxHeight: buttonHeight)
-                    
-                })
-                .buttonStyle(.borderedProminent)
-                .disabled(workout.intervalMin == 0 && workout.intervalSec == 0)
-                .padding(.trailing)
+                if workout.intervalMin > 0 || workout.intervalSec > 0 {
+                    intervalButton
+                }
             }
             
             /// 開始ボタン
@@ -188,6 +173,27 @@ struct TimerView: View {
             
             
         }
+    }
+    
+    /// 休憩ボタン
+    private var intervalButton: some View {
+        Button(action: {
+            timer.invalidate()
+            timer.status = .Start
+            if workoutStatus == .interval {
+                startWorkout()
+            } else {
+                workoutStatus = .interval
+                start(min: workout.intervalMin, sec: workout.intervalSec)
+            }
+        }, label: {
+            Text(workoutStatus == .interval ? LocalizeString.Button.localized("Skip") : LocalizeString.Button.localized("Interval"))
+                .frame(maxHeight: buttonHeight)
+            
+        })
+        .buttonStyle(.borderedProminent)
+        .disabled(workout.intervalMin == 0 && workout.intervalSec == 0)
+        .padding(.trailing)
     }
     
     private func cancel() {
