@@ -35,7 +35,7 @@ struct TimerView: View {
     
     @Environment(\.modelContext) private var modelContext
     
-    @State private var timer = TimerObject()
+    @Binding var timer: TimerObject
     
     var workout: Workout
     
@@ -251,6 +251,6 @@ struct TimerView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerView(workout: Workout(), history: History())
+        TimerView(timer: .constant(TimerObject()), workout: Workout(), history: History())
     }
 }
