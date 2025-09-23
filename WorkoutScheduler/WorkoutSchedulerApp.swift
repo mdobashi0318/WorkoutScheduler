@@ -14,7 +14,7 @@ struct WorkoutSchedulerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: Workout.self, isAutosaveEnabled: false)
+                .modelContainer(for: [Workout.self, History.self], isAutosaveEnabled: false)
         }
     }
 }
