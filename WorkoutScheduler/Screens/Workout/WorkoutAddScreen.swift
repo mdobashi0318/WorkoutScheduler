@@ -14,13 +14,15 @@ struct WorkoutAddScreen: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @State var workout: Workout
+    @State private var workout: Workout
     
     @State private var showAlert = false
     
     @State private var alertMessage = ""
     
-    private let sec: [Int] = {
+    @State private var setCount: Int = 0
+    
+    private let secList: [Int] = {
         var secs: [Int] = []
         for i in 0..<60 where i % 5 == 0 {
             secs.append(i)
@@ -34,7 +36,7 @@ struct WorkoutAddScreen: View {
         self.workout.noSaveWorkoutSec = self.workout.workoutSec
         self.workout.noSaveIntervalMin = self.workout.intervalMin
         self.workout.noSaveIntervalSec = self.workout.intervalSec
-        self.workout.noSaveSetCount = self.workout.setCount
+        _setCount = .init(initialValue: workout.setCount)
     }
     
     
@@ -72,34 +74,38 @@ struct WorkoutAddScreen: View {
         }
     }
     
+    
+    private func timePicker(min: Binding<Int>, sec: Binding<Int>) -> some View {
+        HStack {
+            HStack {
+                Picker("", selection: min) {
+                    ForEach(0..<60) {
+                        Text("\($0)")
+                            .tag($0)
+                    }
+                }
+                Text(LocalizeString.Label.localized("Min"))
+            }
+            
+            HStack {
+                Picker("",selection: sec) {
+                    ForEach(secList, id: \.self) {
+                        Text("\($0)")
+                            .tag($0)
+                    }
+                }
+                Text(LocalizeString.Label.localized("Sec"))
+            }
+        }
+        .pickerStyle(.wheel)
+        .frame(height: 90)
+    }
+    
     private var minSecPickerSection: some View {
         Section(content: {
-            HStack {
-                HStack {
-                    Picker(selection: $workout.noSaveWorkoutMin) {
-                        ForEach(0..<60) {
-                            Text("\($0)")
-                                .tag($0)
-                        }
-                    } label: { }
-                        .pickerStyle(.wheel)
-                    Text(LocalizeString.Label.localized("Min"))
-                }
-                
-                HStack {
-                    Picker(selection: $workout.noSaveWorkoutSec) {
-                        ForEach(sec, id: \.self) {
-                            Text("\($0)")
-                                .tag($0)
-                        }
-                    } label: { }
-                        .pickerStyle(.wheel)
-                    Text(LocalizeString.Label.localized("Sec"))
-                }
-            }
-            .frame(height: 90)
-            Picker(LocalizeString.Label.localized("SetCount"), selection: $workout.noSaveSetCount) {
-                ForEach(1..<61) {
+            timePicker(min: $workout.noSaveWorkoutMin, sec: $workout.noSaveWorkoutSec)
+            Picker(LocalizeString.Label.localized("SetCount"), selection: $setCount) {
+                ForEach(0..<11) {
                     Text("\($0)")
                         .tag($0)
                 }
@@ -112,30 +118,7 @@ struct WorkoutAddScreen: View {
     
     private var intervalPickerSection: some View {
         Section(content: {
-            HStack {
-                HStack {
-                    Picker(selection: $workout.noSaveIntervalMin) {
-                        ForEach(0..<60) {
-                            Text("\($0)")
-                                .tag($0)
-                        }
-                    } label: { }
-                        .pickerStyle(.wheel)
-                    Text(LocalizeString.Label.localized("Min"))
-                }
-                
-                HStack {
-                    Picker(selection: $workout.noSaveIntervalSec) {
-                        ForEach(sec, id:\.self) {
-                            Text("\($0)")
-                                .tag($0)
-                        }
-                    } label: { }
-                        .pickerStyle(.wheel)
-                    Text(LocalizeString.Label.localized("Sec"))
-                }
-            }
-            .frame(height: 90)
+            timePicker(min: $workout.noSaveIntervalMin, sec: $workout.noSaveIntervalSec)
         }, header: {
             Text(LocalizeString.Label.localized("Interval"))
         })
@@ -168,10 +151,10 @@ struct WorkoutAddScreen: View {
         
         do {
             if workout.id.isEmpty {
-                workout.add()
+                workout.add(setCount: setCount)
                 modelContext.insert(workout)
             } else {
-                workout.update()
+                workout.update(setCount: setCount)
             }
             try modelContext.save()
             dismiss()
@@ -183,11 +166,7 @@ struct WorkoutAddScreen: View {
     }
     
     private func validation() -> Bool {
-        return if workout.name.isEmpty {
-            false
-        } else {
-            true
-        }
+        !workout.name.isEmpty
     }
     
 }

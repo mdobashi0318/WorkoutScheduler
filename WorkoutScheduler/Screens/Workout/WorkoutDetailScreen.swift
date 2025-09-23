@@ -16,21 +16,34 @@ struct WorkoutDetailScreen: View {
     
     @State private var showEditSheet = false
     
+    @State private var showHistorySheet = false
+    
+    private let history = History()
+    
+    @State private var timer = TimerObject()
+    
     var body: some View {
         Text(workout.name)
-        TimerView(workout: workout)
+        TimerView(timer: $timer, workout: workout, history: history)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    IconButton(action: {
+                        showHistorySheet.toggle()
+                    }, iconName: .clock)
+                    
                     IconButton(action: {
                         showEditSheet.toggle()
                     }, iconName: .pencil)
+                    .disabled(timer.timer?.isValid == true)
                 }
             }
             .toolbar(.hidden, for: .tabBar)
             .sheet(isPresented: $showEditSheet) {
                 WorkoutAddScreen(workout: workout)
             }
+            .sheet(isPresented: $showHistorySheet) {
+                WorkoutHistoryScreen(workout: workout)
+            }
     }
     
-
 }

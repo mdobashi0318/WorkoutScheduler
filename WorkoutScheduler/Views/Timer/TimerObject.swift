@@ -15,9 +15,28 @@ import Observation
 class TimerObject {
 
     enum Status: String {
-        case Start = "StartWorkout"
+        case Start
         case Pause
         case Resume
+        case End
+        
+        var title: String {
+            LocalizeString.Button.localized(self.localizeKey)
+        }
+        
+        private var localizeKey: String.LocalizationValue {
+            switch self {
+            case .Start:
+                "StartWorkout"
+            case .Pause:
+                "Pause"
+            case .Resume:
+                "Resume"
+            case .End:
+                "StartWorkout"
+            }
+        }
+        
     }
     
     var progresValue: CGFloat = 0.0
@@ -25,21 +44,26 @@ class TimerObject {
     var displaySec: Int = 0
     var status = Status.Start
     
-    private var timer :Timer?
-    private var sec = 0
+    private(set) var timer :Timer?
+    private(set) var sec = 0
+    
+    func initDisplayTime(_ min: Int, _ sec: Int) {
+        self.displayMin = min
+        self.displaySec = sec
+    }
     
     func startTimer(setMin: Int, setSec: Int) {
         if setMin == 0 && setSec == 0 {
             return
         }
         self.invalidate()
-        if status == .Start {
+        if status == .Start || status == .End {
             displayMin = setMin
             displaySec = setSec
             progresValue = 0
             sec = 0
         }
-        status = .Pause
+        status = .Start
         UIApplication.shared.isIdleTimerDisabled = true
         
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
@@ -53,7 +77,7 @@ class TimerObject {
             self.sec += 1
             if self.sec == (60 * setMin) + setSec {
                 self.invalidate()
-                self.status = .Start
+                self.status = .End
                 AudioServicesPlayAlertSound(SystemSoundID(1013))
             }
         }
@@ -62,5 +86,9 @@ class TimerObject {
     func invalidate() {
         timer?.invalidate()
         UIApplication.shared.isIdleTimerDisabled = false
+    }
+    
+    func resetSec() {
+        sec = 0
     }
 }
