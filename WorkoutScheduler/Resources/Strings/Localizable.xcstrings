@@ -30,22 +30,36 @@
     "History" : {
 
     },
-    "NoHistoryList %@" : {
-
-    },
-    "NoHistoryList %lld" : {
+    "NoHistory" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Displays records with execution times of %1$(variableName)lld seconds or longer."
+            "value" : "No history yet."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "実施時間が%(variableName)lld秒以上の記録を表示します。"
+            "value" : "まだ履歴がありません"
+          }
+        }
+      }
+    },
+    "NoHistoryTimeList %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Displays records with execution times of %1$(variableName)lld minute or longer."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "実施時間が%(variableName)lld分以上の記録を表示します。"
           }
         }
       }
