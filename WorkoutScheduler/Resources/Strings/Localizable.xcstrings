@@ -27,8 +27,28 @@
         }
       }
     },
+    "Edit" : {
+
+    },
     "History" : {
 
+    },
+    "Manual recording" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manual recording"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動記録"
+          }
+        }
+      }
     },
     "NoHistory" : {
       "extractionState" : "manual",

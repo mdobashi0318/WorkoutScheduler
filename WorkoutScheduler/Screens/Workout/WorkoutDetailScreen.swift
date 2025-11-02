@@ -18,6 +18,8 @@ struct WorkoutDetailScreen: View {
     
     @State private var showHistorySheet = false
     
+    @State private var showAddData = false
+    
     private let history = History()
     
     @State private var timer = TimerObject()
@@ -32,8 +34,14 @@ struct WorkoutDetailScreen: View {
                     }, iconName: .clock)
                     
                     IconButton(action: {
+                        showAddData.toggle()
+                    }, iconName: .other(name: "pencil.tip.crop.circle.badge.plus"))
+                                        
+                    Button(action: {
                         showEditSheet.toggle()
-                    }, iconName: .pencil)
+                    }, label: {
+                        Text("Edit")
+                    })
                     .disabled(timer.timer?.isValid == true)
                 }
             }
@@ -43,6 +51,10 @@ struct WorkoutDetailScreen: View {
             }
             .sheet(isPresented: $showHistorySheet) {
                 WorkoutHistoryScreen(workout: workout)
+            }
+            .sheet(isPresented: $showAddData) {
+                WorkoutAddDataScreen(workout: workout)
+                    .presentationDetents([.medium])
             }
     }
     

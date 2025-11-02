@@ -61,11 +61,7 @@ struct HistoryListView: View {
             List {
                 ForEach(historys) { history in
                     NavigationLink(value: history.workout, label: {
-                        VStack(alignment: .leading) {
-                            Text(history.workout?.name ?? "")
-                            Text(history.timeElapsed())
-                            Text(history.workoutTime())
-                        }
+                        HistoryRow(history: history, isShowTitle: true)
                     })
                 }
                 .onDelete(perform: delete)
@@ -92,3 +88,4 @@ struct HistoryListView: View {
 #Preview {
     HistoryListScreen()
 }
+

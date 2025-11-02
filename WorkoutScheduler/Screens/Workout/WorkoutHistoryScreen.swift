@@ -33,10 +33,7 @@ struct WorkoutHistoryScreen: View {
         NavigationStack {
             List {
                 ForEach(history) { model in
-                    VStack(alignment: .leading) {
-                        Text(model.timeElapsed())
-                        Text(model.workoutTime())
-                    }
+                    HistoryRow(history: model, isShowTitle: false)
                 }
                 .onDelete(perform: delete)
             }
