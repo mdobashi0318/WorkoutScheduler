@@ -27,11 +27,44 @@
         }
       }
     },
+    "Additional time" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追加する時間"
+          }
+        }
+      }
+    },
     "Edit" : {
 
     },
     "History" : {
 
+    },
+    "History Settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴設定"
+          }
+        }
+      }
+    },
+    "Manual Addition" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動追加"
+          }
+        }
+      }
     },
     "Manual recording" : {
       "extractionState" : "manual",
@@ -46,6 +79,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "手動記録"
+          }
+        }
+      }
+    },
+    "Minimum display interval for history" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴表示の最低分数"
           }
         }
       }

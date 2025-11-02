@@ -33,7 +33,7 @@ struct WorkoutAddDataScreen: View {
             Form {
                 minSecPickerSection
             }
-            .navigationTitle("手動追加")
+            .navigationTitle("Manual Addition")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     IconButton(action: {
@@ -65,7 +65,7 @@ struct WorkoutAddDataScreen: View {
         Section(content: {
             timePicker(min: $workoutMin, sec: $workoutSec)
         }, header: {
-            Text(LocalizeString.Label.localized("SetWorkoutTime"))
+            Text("Additional time")
         })
     }
     

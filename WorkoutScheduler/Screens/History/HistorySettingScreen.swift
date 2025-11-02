@@ -16,14 +16,14 @@ struct HistorySettingScreen: View {
     var body: some View {
         NavigationStack {
             List {
-                Picker("履歴表示の最低分数", selection: $historyMiniMin) {
+                Picker("Minimum display interval for history", selection: $historyMiniMin) {
                     ForEach(0..<11) {
                         Text("\($0)")
                             .tag($0)
                     }
                 }
             }
-            .navigationTitle("履歴設定")
+            .navigationTitle("History Settings")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     IconButton(action: {
