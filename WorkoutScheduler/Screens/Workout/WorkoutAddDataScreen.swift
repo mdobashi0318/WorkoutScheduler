@@ -37,6 +37,7 @@ struct WorkoutAddDataScreen: View {
                     IconButton(action: {
                         addHistory()
                     }, iconName: .plus)
+                    .disabled(workoutMin == 0 && workoutSec == 0)
                 }
             }
         }
