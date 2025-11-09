@@ -19,14 +19,6 @@ struct WorkoutAddDataScreen: View {
     
     @State private var workoutMin = 0
     @State private var workoutSec = 0
-        
-    private let secList: [Int] = {
-        var secs: [Int] = []
-        for i in 0..<60 where i % 5 == 0 {
-            secs.append(i)
-        }
-        return secs
-    }()
     
     var body: some View {
         NavigationStack {
@@ -63,37 +55,10 @@ struct WorkoutAddDataScreen: View {
     
     private var minSecPickerSection: some View {
         Section(content: {
-            timePicker(min: $workoutMin, sec: $workoutSec)
+            TimePicker(min: $workoutMin, sec: $workoutSec)
         }, header: {
             Text("Additional time")
         })
-    }
-    
-    
-    private func timePicker(min: Binding<Int>, sec: Binding<Int>) -> some View {
-        HStack {
-            HStack {
-                Picker("", selection: min) {
-                    ForEach(0..<60) {
-                        Text("\($0)")
-                            .tag($0)
-                    }
-                }
-                Text(LocalizeString.Label.localized("Min"))
-            }
-            
-            HStack {
-                Picker("",selection: sec) {
-                    ForEach(secList, id: \.self) {
-                        Text("\($0)")
-                            .tag($0)
-                    }
-                }
-                Text(LocalizeString.Label.localized("Sec"))
-            }
-        }
-        .pickerStyle(.wheel)
-        .frame(height: 90)
     }
     
 }
