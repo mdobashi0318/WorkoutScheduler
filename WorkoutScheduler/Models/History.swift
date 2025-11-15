@@ -22,6 +22,9 @@ class History {
     
     var workout: Workout?
 
+    ///  手動で追加した
+    var addFlag = false
+    
     var created_at: String = ""
     
     var updated_at: String = ""
@@ -30,14 +33,14 @@ class History {
         id = UUID().uuidString
     }
     
-    
-    func add(workout: Workout) {
+    func add(workout: Workout, addFlag: Bool = false) {
         let now = DateFormatter.created_at
         startDate = DateFormatter.format_yyyyMMddHHmm()
         endDate = DateFormatter.format_yyyyMMddHHmm()
         self.workout = workout
         created_at = now
         updated_at = now
+        self.addFlag = addFlag
     }
     
     func update() {
