@@ -14,9 +14,6 @@
         }
       }
     },
-    "%@: " : {
-
-    },
     "%@/%@" : {
       "localizations" : {
         "en" : {
@@ -51,6 +48,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "履歴設定"
+          }
+        }
+      }
+    },
+    "InputTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter a title."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タイトルを入力してください。"
           }
         }
       }

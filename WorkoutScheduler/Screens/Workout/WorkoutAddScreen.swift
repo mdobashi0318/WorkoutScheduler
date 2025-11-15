@@ -35,10 +35,7 @@ struct WorkoutAddScreen: View {
     var body: some View {
         NavigationStack {
             Form {
-                HStack {
-                    Text("\(LocalizeString.Label.localized("Title")): ")
-                    underbarTextField(text: $workout.name)
-                }
+                titleSection
                 minSecPickerSection
                 intervalPickerSection
             }
@@ -58,12 +55,14 @@ struct WorkoutAddScreen: View {
     }
     
     
-    private func underbarTextField(text: Binding<String>, keybordtype: UIKeyboardType = .default) -> some View {
-        VStack {
-            TextField("", text: text)
-                .keyboardType(keybordtype)
-            Divider()
-        }
+    private var titleSection: some View {
+        Section(content: {
+            HStack {
+                TextField("InputTitle", text: $workout.name)
+            }
+        }, header: {
+            Text(LocalizeString.Label.localized("Title"))
+        })
     }
     
     private var minSecPickerSection: some View {
